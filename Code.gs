@@ -1,7 +1,7 @@
 // URL of the RSS feed to parse
-var RSS_FEED_URL = "https://cloudblog.withgoogle.com/products/gcp/rss/";
+var RSS_FEED_URL = "https://www.google.com/appsstatus/rss/en";
 
-// Webhook URL of the Hangouts Chat room
+// Webhook URL of the Google Chat room
 var WEBHOOK_URL = "https://chat.googleapis.com/v1/spaces/[SPACE_ID]/messages?key=[KEY]";
 
 // When DEBUG is set to true, the topic is not actually posted to the room
@@ -28,17 +28,18 @@ function fetchNews() {
     
     var pubDate = new Date(items[i].getChild('pubDate').getText());
     
-    var og = items[i].getChild('og');
-    var title = og.getChild("title").getText();
-    var description = og.getChild("description").getText();
-    var link = og.getChild("url").getText();
+    //var og = items[i].getChild('og');
+    var title = items[i].getChild("title").getText();
+    var description = items[i].getChild("description").getText();
+    description = description.replace(/((<\/?[^>]+(>|$))|(&nbsp;))/g, " ");
+    var link = items[i].getChild("link").getText();
     
     if(DEBUG){
       Logger.log("------ " + (i+1) + "/" + items.length + " ------");
       Logger.log(pubDate);
       Logger.log(title);
       Logger.log(link);
-      // Logger.log(description);
+      Logger.log(description);
       Logger.log("--------------------");
     }
 
